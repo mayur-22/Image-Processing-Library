@@ -30,15 +30,17 @@ Matrix::Matrix(char* file_name, int rows, int columns){
         throw "File not found";
     }
     else{
-        matrix=vector<vector<float>> (rows);
+        num_rows=rows;
+        num_columns=columns;
+        matrix=new float[rows*columns];
         string str;
         float x;
-        for(int i=0;!infile.eof();i++){
+        for(int i=0;i<columns;i++){
             getline(infile,str);
             stringstream fstr(str);
             for(int j=0;j<rows;j++){
                 fstr>>x;
-                matrix[i][j]=x;
+                matrix[i*rows+j]=x;
             }
         }
     }
@@ -53,15 +55,15 @@ Matrix::Matrix(char* file_name, int rows){
         throw "File not found";
     }
     else{
-        matrix=vector<vector<float>> (rows);
+        matrix=new float[rows*rows];
         string str;
         float x;
-        for(int i=0;!infile.eof();i++){
+        for(int i=0;i<rows;i++){
             getline(infile,str);
             stringstream fstr(str);
             for(int j=0;j<rows;j++){
                 fstr>>x;
-                matrix[i][j]=x;
+                matrix[i*rows+j]=x;
             }
         }
     }
@@ -73,13 +75,14 @@ Matrix::Matrix(char* file_name, int rows){
 Matrix::Matrix(char *file_name) {
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
+    num_rows=num_columns=0;
     if(!infile){
         throw "File not found";
     }
     else{
         float x;
         while(!infile.eof()){
-            infile>>x;
+            infile>>x; 
             vec.push_back(x);
         }
         infile.close();
@@ -91,14 +94,14 @@ Matrix::~Matrix() {
 }
 
 float Matrix::get_Element(int x, int y){
-    return matrix[x][y];
+    return matrix[x*num_rows+y];
 }
 
 float Matrix::get_Element(int x){
     return vec[x];
 }
 
-vector<vector<float>> Matrix::get_Matrix(){
+float *Matrix::get_Matrix(){
     return this->matrix;
 }
 

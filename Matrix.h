@@ -22,7 +22,7 @@ public:
     Matrix(char *file_name,int rows,int columns);
     Matrix(char *file_name,int rows);
     Matrix(char *file_name);
-    std::vector<std::vector<float>> get_Matrix();
+    float *get_Matrix();
     std::vector<float> get_Vec();
     Matrix mult_matrix(Matrix &A,Matrix &B);
     inline float get_Element(int x,int y);
@@ -30,7 +30,9 @@ public:
     virtual ~Matrix();
 private:
     std::vector<float> vec;
-    std::vector<std::vector<float>> matrix;
+    float *matrix;
+    int num_rows;
+    int num_columns;
 };
 
 #endif /* MATRIX_H */
