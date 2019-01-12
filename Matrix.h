@@ -13,6 +13,7 @@
 
 #ifndef MATRIX_H
 #define MATRIX_H
+#include "vector"
 
 class Matrix {
     
@@ -20,11 +21,16 @@ public:
     Matrix();
     Matrix(char *file_name,int rows,int columns);
     Matrix(char *file_name,int rows);
-    Matrix(const Matrix& orig);
-    float *get_Data();
+    Matrix(char *file_name);
+    std::vector<std::vector<float>> get_Matrix();
+    std::vector<float> get_Vec();
+    Matrix mult_matrix(Matrix &A,Matrix &B);
+    inline float get_Element(int x,int y);
+    inline float get_Element(int x);
     virtual ~Matrix();
 private:
-    float *matrix;
+    std::vector<float> vec;
+    std::vector<std::vector<float>> matrix;
 };
 
 #endif /* MATRIX_H */
