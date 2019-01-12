@@ -1,0 +1,17 @@
+#for relu function the command line shall be as follows:
+    --for square matrices of dimension dim
+        ./main.o ReLU matFileName  num_rows
+    --for other matrices of any dimension
+        ./main.o ReLU matFileName num_rows num_columns
+
+#for application of tanh on a matrix contained in a file
+    --for square matrices of dimension dim
+        ./main.o tanh matFileName  dim
+    --for other matrices of any dimension
+        ./main.o tanh matFileName num_rows num_columns
+
+#for application of sigmoid function with the vector stored in vecFileName
+    ./main.o sigmoid vecFileName
+
+#for application of softmax function with the vector stored in vecFileName
+    ./main.o softmax vecFileName
