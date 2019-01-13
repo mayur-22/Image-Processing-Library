@@ -1,18 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 #include "pooling.h"
+#include "vector"
+#include "limits"
+#include "Matrix.h"
+using namespace std;
 
-std::vector<float> max_pooling(Matrix &A, Matrix &B){
-	int m = B.get_sizeofrow();
-	int n = A.get_sizeofrow();
-	std::vector<float> ans;		//column priority
+pooling::pooling(){
+    
+}
+
+pooling::~pooling(){
+    
+}
+Matrix pooling::max_pooling(Matrix &A, int m,int stride){
+        int n = A.get_sizeofrow();
+        if(stride==0)
+            stride=m;
+        int lim=(n-m)/stride;
+	vector<float> ans;		//column priority
 	float max = 0.00;
-	
+	Matrix R(lim*lim,lim);
 	//assuming i,j will give element of ith row and jth column
-
-	for(int y=0;y<n;y+=m){
-		for(int x=0;x<n;x+=m){
-			max = 0.00;
-			for (int i = 0; i < m; ++i){
-				for (int j = 0; j < m; ++j){
+        
+	for(int y=0;y<n;y+=stride){
+		for(int x=0;x<n;x+=stride){
+			max = numeric_limits<float>::min();
+			for (int i = 0; (i < m)&&((i+x)<n); ++i){
+				for (int j = 0; (j < m)&&((j+y)<n); ++j){
 					if(max<A.get_Element(j+y,i+x))
 						max = A.get_Element(j+y,i+x);
 				}
@@ -20,20 +39,24 @@ std::vector<float> max_pooling(Matrix &A, Matrix &B){
 			ans.push_back(max);
 		}
 	}
-	return ans;
+        R.set_Matrix(&ans[0]);
+	return R;
 
 }
 
-std::vector<float> average_pooling(Matrix &A, Matrix &B){
-	int m = B.get_sizeofrow();
+Matrix pooling:: average_pooling(Matrix &A, int m,int stride){
 	int n = A.get_sizeofrow();
-	std::vector<float> ans;		//column priority
+	if(stride==0)
+            stride=m;
+        int lim=(n-m)/stride;
+	vector<float> ans;		//column priority
+	Matrix R(lim*lim,lim);
 	float sum = 0.00;
 	
 	//assuming i,j will give element of ith row and jth column
 
-	for(int y=0;y<n;y+=m){
-		for(int x=0;x<n;x+=m){
+	for(int y=0;y<n;y+=stride){
+		for(int x=0;x<n;x+=stride){
 			sum = 0.00;
 			for (int i = 0; i < m; ++i){
 				for (int j = 0; j < m; ++j){
@@ -43,6 +66,7 @@ std::vector<float> average_pooling(Matrix &A, Matrix &B){
 			ans.push_back(sum/(m*m));
 		}
 	}
-	return ans;
+        R.set_Matrix(&ans[0]);
+	return R;
 
 }

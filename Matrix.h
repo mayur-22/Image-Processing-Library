@@ -31,11 +31,11 @@ public:
     std::vector<float> get_Vec();
     Matrix mult_matrix(Matrix &A,Matrix &B);
     void print_matrix();
-    inline float get_Element(int x,int y);
-    inline float get_Element(int x);
-    inline void add_Element(float x,int i,int j);
-    inline int get_sizeofrow();
-    inline int get_sizeofcolumn();
+    float get_Element(int x,int y);
+    float get_Element(int x);
+    void add_Element(float x,int i,int j);
+    int get_sizeofrow();
+    int get_sizeofcolumn();
     virtual ~Matrix();
 private:
     std::vector<float> vec;

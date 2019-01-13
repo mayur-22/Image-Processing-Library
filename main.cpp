@@ -97,49 +97,46 @@ int main(int argc, char** argv) {
         }
     }
     else if(strcmp(argv[1],"max_pool")==0){
-        if(argc==7){
+        if(argc==6){
             Matrix A(argv[2],atoi(argv[3]));
-            Matrix B(argv[4],atoi(argv[5]));
             pooling pool_red;
-            Matrix C(pool_red.max_pooling(A,B,atoi(argv[6])));
+            Matrix C(pool_red.max_pooling(A,atoi(argv[4]),atoi(argv[5])));
             C.print_matrix();
         }
         else if(argc==6){
             Matrix A(argv[2],atoi(argv[3]));
-            Matrix B(argv[4],atoi(argv[5]));
             pooling pool_red;
-            Matrix C(pool_red.max_pooling(A,B));
+            Matrix C(pool_red.max_pooling(A,atoi(argv[4])));
             C.print_matrix();
         }
         else{
             cout<<"Invalid command"
                 <<"#for maxpooling with given stride command line should be as follows assuming square matrices\n"
-                <<"./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size stride\n";
+                <<"./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size stride\n"
                 <<"--for default stride(equal to kernel order)\n"
-                <<"./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size\n";
+                <<"./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size\n";
         }
     }
     else if(strcmp(argv[1],"average_pool")==0){
-        if(argc==7){
+        if(argc==6){
             Matrix A(argv[2],atoi(argv[3]));
-            Matrix B(argv[4],atoi(argv[5]));
             pooling pool_red;
-            Matrix C(pool_red.average_pooling(A,B,atoi(argv[6])));
+            Matrix C(pool_red.average_pooling(A,atoi(argv[4]),atoi(argv[5])));
             C.print_matrix();
         }
-        else if(argc==6){
+        else if(argc==5){
             Matrix A(argv[2],atoi(argv[3]));
             Matrix B(argv[4],atoi(argv[5]));
             pooling pool_red;
-            Matrix C(pool_red.average_pooling(A,B));
+            Matrix C(pool_red.average_pooling(A,atoi(argv[4])));
             C.print_matrix();
         }
         else{
             cout<<"Invalid command\n"
                 <<"#for averagepooling with given stride command line should be as follows assuming square matrices\n"
-                <<"./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size stride\n"
+                <<"./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size stride\n"
                 <<"--for default stride(equal to kernel order)\n"
-                <<"./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size\n";
+                <<"./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size\n";
         }
         
     }

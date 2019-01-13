@@ -137,7 +137,7 @@ void Matrix::set_Matrix(float* ptr){
 inline void Matrix::add_Element(float x,int i,int j){
     matrix[i*num_rows+j]=x;
 }
-inline float Matrix::get_Element(int x, int y){
+float Matrix::get_Element(int x, int y){
     return matrix[x*num_rows+y];
 }
 
