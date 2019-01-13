@@ -8,6 +8,8 @@
 #include "vector"
 #include "limits"
 #include "Matrix.h"
+#include "cmath"
+
 using namespace std;
 
 pooling::pooling(){
@@ -21,10 +23,9 @@ Matrix pooling::max_pooling(Matrix &A, int m,int stride){
         int n = A.get_sizeofrow();
         if(stride==0)
             stride=m;
-        int lim=(n-m)/stride;
+        int lim=ceil((n-m)/stride);
 	vector<float> ans;		//column priority
 	float max = 0.00;
-	Matrix R(lim*lim,lim);
 	//assuming i,j will give element of ith row and jth column
         
 	for(int y=0;y<n;y+=stride){
@@ -39,7 +40,7 @@ Matrix pooling::max_pooling(Matrix &A, int m,int stride){
 			ans.push_back(max);
 		}
 	}
-        R.set_Matrix(&ans[0]);
+        Matrix R(&ans[0],lim);
 	return R;
 
 }
@@ -48,9 +49,8 @@ Matrix pooling:: average_pooling(Matrix &A, int m,int stride){
 	int n = A.get_sizeofrow();
 	if(stride==0)
             stride=m;
-        int lim=(n-m)/stride;
+        int lim=ceil((n-m)/stride);
 	vector<float> ans;		//column priority
-	Matrix R(lim*lim,lim);
 	float sum = 0.00;
 	
 	//assuming i,j will give element of ith row and jth column
@@ -66,7 +66,7 @@ Matrix pooling:: average_pooling(Matrix &A, int m,int stride){
 			ans.push_back(sum/(m*m));
 		}
 	}
-        R.set_Matrix(&ans[0]);
+        Matrix R(&ans[0],lim);
 	return R;
 
 }

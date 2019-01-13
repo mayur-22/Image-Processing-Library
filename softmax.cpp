@@ -1,6 +1,19 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 #include "softmax.h"
 #include <cmath>
 
+softmax::softmax(){
+    
+}
+
+softmax::~softmax(){
+    
+}
 std::vector<float> softmax::soft_max(std::vector<float> v){
 
 	std::vector<float> ans;

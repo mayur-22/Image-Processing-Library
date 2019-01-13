@@ -17,6 +17,7 @@
 #include "vector"
 #include "string"
 #include "sstream"
+#include "DtException.h"
 
 
 using namespace std;
@@ -79,7 +80,7 @@ Matrix::Matrix(char* file_name, int rows){
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
     if(!infile){
-        throw "File not found";
+        throw DtException("File not found");
     }
     else{
         matrix=new float[rows*rows];
