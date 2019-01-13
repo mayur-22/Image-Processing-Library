@@ -37,15 +37,14 @@ float *RElu::Relu_vec(float *input,int rows){
         *(ret++)=*(input+i);
     return ret;
 }
-
+*/
 Matrix RElu::Relu_mat(Matrix &A){
-    Matrix B(A.get_sizeofrow()*A.get_sizeofcolumn(),A.get_sizeofrow(),A.get_sizeofcolumn());
-    float *r=Relu_vec(A.get_Matrix(),A.get_sizeofrow(),A.get_sizeofcolumn());
-    B.set_Matrix(r);
+    float *r=Relu(A);
+    Matrix B(r,A.get_sizeofrow(),A.get_sizeofcolumn());
     return B;
 }            
-*/
-float *RElu::Relu_mat(Matrix &A){
+
+float *RElu::Relu(Matrix &A){
         float *mat=A.get_Matrix();
         int rows=A.get_sizeofrow();
         int columns=A.get_sizeofcolumn();

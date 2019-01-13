@@ -24,3 +24,9 @@
     ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size stride
     --for default stride(equal to kernel order)
         ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size
+
+#convolution with padding--(without flipping the kernel and assuming square input matrices)
+    ./main.o convolution_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+
+#convolution without padding--(without flipping the kernel and assuming all square matrices)
+    ./main.o convolution_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size

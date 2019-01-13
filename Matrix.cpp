@@ -97,7 +97,16 @@ Matrix::Matrix(char* file_name, int rows){
     infile.close();
 }
 
+Matrix::Matrix(float *ptr,int rows){
+    matrix=ptr;
+    num_rows=num_columns=rows;
+}
 
+Matrix::Matrix(float *ptr,int rows,int columns){
+    matrix=ptr;
+    num_rows=rows;
+    num_columns=columns;
+}
 
 Matrix::Matrix(char *file_name) {
     ifstream infile;
@@ -140,6 +149,17 @@ inline void Matrix::add_Element(float x,int i,int j){
 float Matrix::get_Element(int x, int y){
     return matrix[x*num_rows+y];
 }
+
+float Matrix::get_Element(int x, int y,bool exc){
+    if(x>=num_rows||y>=num_columns){
+        if(exc)
+            throw "Illegal matrix access";
+        else
+            return 0;
+    }
+    return matrix[x*num_rows+y];
+}
+
 
 float Matrix::get_Element(int x){
     return vec[x];

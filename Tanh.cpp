@@ -23,8 +23,8 @@ float *Tanh::Tanh_mat(float *mat,int rows,int columns){
 		matret[i]=tanh(mat[i]);
 	return matret;
 }
-/*
-float *Tanh::Tanh_mat(Matrix &A){
+
+float *Tanh::Tanh_internal(Matrix &A){
         float *mat=A.get_Matrix();
         int rows=A.get_sizeofrow();
         int columns=A.get_sizeofcolumn();
@@ -33,11 +33,10 @@ float *Tanh::Tanh_mat(Matrix &A){
 		matret[i]=tanh(mat[i]);
 	return matret;
 }
-*/
+
 Matrix Tanh::Tanh_mat(Matrix &A){
-    Matrix B=Matrix(A.get_sizeofrow()*A.get_sizeofcolumn(),A.get_sizeofrow(),A.get_sizeofcolumn());
-    float *r=Tanh_mat(A.get_Matrix(),A.get_sizeofrow(),A.get_sizeofcolumn());
-    B.set_Matrix(r);
+    float *r=Tanh_internal(A);
+    Matrix B(r,A.get_sizeofrow(),A.get_sizeofcolumn());
     return B;
 }            
 

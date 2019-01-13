@@ -21,10 +21,10 @@ public:
     RElu();
     //float *Relu_vec(float *,int,int);
     //float *Relu_vec(float *input,int rows);
-    float * Relu_mat(Matrix &A);
+    Matrix Relu_mat(Matrix &A);
     std::vector <float> Relu(std::vector <float>);
-    
 private:  
+    float * Relu(Matrix &A);
     
 };
 

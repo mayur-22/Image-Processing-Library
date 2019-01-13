@@ -24,6 +24,8 @@ public:
     Matrix(char *file_name);
     Matrix(int size,int rows,int columns);
     Matrix(int size,int rows);
+    Matrix(float *ptr,int rows);
+    Matrix(float *ptr,int rows,int columns);
     Matrix(std:: vector<float> v);
     Matrix(const Matrix &A);
     float *get_Matrix();
@@ -32,6 +34,7 @@ public:
     Matrix mult_matrix(Matrix &A,Matrix &B);
     void print_matrix();
     float get_Element(int x,int y);
+    float get_Element(int x, int y,bool exc);
     float get_Element(int x);
     void add_Element(float x,int i,int j);
     int get_sizeofrow();
