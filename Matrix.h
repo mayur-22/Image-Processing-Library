@@ -27,6 +27,9 @@ public:
     Matrix mult_matrix(Matrix &A,Matrix &B);
     inline float get_Element(int x,int y);
     inline float get_Element(int x);
+    inline void add_Element(float x,int i,int j);
+    inline int get_sizeofrow();
+    inline int get_sizeofcolumn();
     virtual ~Matrix();
 private:
     std::vector<float> vec;

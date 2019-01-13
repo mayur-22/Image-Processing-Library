@@ -23,6 +23,10 @@ using namespace std;
 Matrix::Matrix() {
 }
 
+Matrix::Matrix(int size){
+    matrix=new float[size];
+}
+
 Matrix::Matrix(char* file_name, int rows, int columns){
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
@@ -93,6 +97,9 @@ Matrix::~Matrix() {
     
 }
 
+void Matrix::add_Element(float x,int i,int j){
+    matrix[i*num_rows+j]=x;
+}
 float Matrix::get_Element(int x, int y){
     return matrix[x*num_rows+y];
 }
@@ -109,3 +116,10 @@ vector<float> Matrix::get_Vec(){
     return this->vec;
 }
 
+int Matrix::get_sizeofrow(){
+    return num_rows;
+}
+
+int Matrix::get_sizeofcolumn(){
+    return num_columns;
+}
