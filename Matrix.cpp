@@ -23,8 +23,27 @@ using namespace std;
 Matrix::Matrix() {
 }
 
-Matrix::Matrix(int size){
+Matrix::Matrx(Matrix& A){
+    matrix=A.get_Matrix();
+    num_rows=A.get_sizeofrow();
+    num_columns=A.get_sizeofcolumn();
+}
+
+Matrix::Matrix(vector<float> v){
+    num_rows=0;
+    num_columns=0;
+    vec=v;
+}
+
+Matrix::Matrix(int size,int rows,int columns){
     matrix=new float[size];
+    num_rows=rows;
+    num_columns=columns;
+}
+
+Matrix::Matrix(int size,int rows){
+    matrix=new float[size];
+    num_rows=rows;
 }
 
 Matrix::Matrix(char* file_name, int rows, int columns){
@@ -97,6 +116,9 @@ Matrix::~Matrix() {
     
 }
 
+void Matrix::set_Matrix(float* ptr){
+    matrix=ptr;
+}
 void Matrix::add_Element(float x,int i,int j){
     matrix[i*num_rows+j]=x;
 }

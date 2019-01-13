@@ -22,7 +22,12 @@ public:
     Matrix(char *file_name,int rows,int columns);
     Matrix(char *file_name,int rows);
     Matrix(char *file_name);
+    Matrix(int size,int rows,int columns);
+    Matrix(int size,int rows);
+    Matrix(vector<float> v);
+    Matrx(Matrix &A);
     float *get_Matrix();
+    void set_Matrix(float *ptr);
     std::vector<float> get_Vec();
     Matrix mult_matrix(Matrix &A,Matrix &B);
     inline float get_Element(int x,int y);
