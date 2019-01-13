@@ -14,10 +14,12 @@
 #include "RElu.h"
 #include "cmath"
 #include "vector"
+#include "Matrix.h"
+using namespace std;
 
 RElu::RElu() {
 }
-
+/*
 float *RElu::Relu_vec(float *input,int rows, int columns){
     float *ret=new float[columns*rows];
     float *r=ret;
@@ -27,9 +29,34 @@ float *RElu::Relu_vec(float *input,int rows, int columns){
     return ret;
 }
 
-vector<float> RElu::Relu(vector<float> input){
-    vector<float> rest;
-    vector<float>::iterator iter;
+float *RElu::Relu_vec(float *input,int rows){
+    float *ret=new float[rows*rows];
+    float *r=ret;
+    int lim=rows*rows;
+    for(int i=0;i<lim;i++)
+        *(ret++)=*(input+i);
+    return ret;
+}
+
+Matrix RElu::Relu_mat(Matrix &A){
+    Matrix B(A.get_sizeofrow()*A.get_sizeofcolumn(),A.get_sizeofrow(),A.get_sizeofcolumn());
+    float *r=Relu_vec(A.get_Matrix(),A.get_sizeofrow(),A.get_sizeofcolumn());
+    B.set_Matrix(r);
+    return B;
+}            
+*/
+float *RElu::Relu_mat(Matrix &A){
+        float *mat=A.get_Matrix();
+        int rows=A.get_sizeofrow();
+        int columns=A.get_sizeofcolumn();
+	float *matret=new float[rows*columns];
+	for(int i=0;i<rows*columns;i++)
+		matret[i]=fabs(mat[i]);
+	return matret;
+}
+vector <float> RElu::Relu(vector <float> input){
+    vector <float> rest;
+    vector <float>::iterator iter;
     for(iter=input.begin();iter<input.end();iter++)
         if(*iter<0)
             rest.push_back(0);

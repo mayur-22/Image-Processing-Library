@@ -13,14 +13,17 @@
 
 #ifndef TANH_H
 #define TANH_H
-#inlcude "Matrix.h"
-class tanh {
+#include "Matrix.h"
+#include "cmath"
+class Tanh {
 public:
-    tanh();
+    Tanh();
     float *Tanh_mat(float *mat,int rows,int columns);
-    virtual ~tanh();
+    //Matrix Tanh_mat(Matrix &A);
+    Matrix Tanh_mat(Matrix &A);
+    virtual ~Tanh();
 private:
-    Matrix *B;
+    
 };
 
 #endif /* TANH_H */
