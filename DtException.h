@@ -14,12 +14,14 @@
 #ifndef DTEXCEPTION_H
 #define DTEXCEPTION_H
 #include "exception"
+#include "string"
+
 using namespace std;
 class DtException : public exception{
 public:
-    char *message;
+    string message;
     DtException();
-    DtException(char *);
+    DtException(string);
     const char * what () const throw ();
     void getMessage();
 private:

@@ -14,15 +14,15 @@
 #include "DtException.h"
 #include "iostream"
 #include "exception"
-
+#include "string"
 DtException::DtException() {
 }
 
-DtException::DtException(char *errmsg) {
+DtException::DtException(string errmsg) {
     message=errmsg;
 }
 const char *DtException:: what () const throw () {
-      return message;
+      return "Data Error";
    }
 void DtException::getMessage () {
     cout<<message;

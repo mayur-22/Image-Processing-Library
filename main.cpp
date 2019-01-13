@@ -38,10 +38,10 @@ int main(int argc, char** argv) {
             B.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
         }
         else if (argc==5){
@@ -52,10 +52,10 @@ int main(int argc, char** argv) {
             B.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
         }
         else{
@@ -74,10 +74,10 @@ int main(int argc, char** argv) {
             B.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
         }
         else if (argc==5){
@@ -88,10 +88,10 @@ int main(int argc, char** argv) {
             B.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
         }
         else{
@@ -109,10 +109,10 @@ int main(int argc, char** argv) {
             Matrix B(s.soft_max(A.get_Vec()));
             }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Vector cannot be read--\n";
+                cout<<"\n--Vector cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
         }
         else{
@@ -138,10 +138,10 @@ int main(int argc, char** argv) {
         
         }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
     }
     else if(strcmp(argv[1],"max_pool")==0){
@@ -169,10 +169,10 @@ int main(int argc, char** argv) {
         }
         }catch(DtException& e){
                 e.getMessage();
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
     }
     else if(strcmp(argv[1],"average_pool")==0){
@@ -198,10 +198,11 @@ int main(int argc, char** argv) {
                 <<"./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size\n";
         }
         }catch(DtException& e){
-                cout<<e.what()<<"\n--Matrix cannot be read--\n";
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
             }
             catch(exception& e){
-                cout<<"Standard Exception: "<<e.what()<<endl;
+                cout<<"Standard Exception: "<<endl;
             }
     }
     else if(strcmp(argv[1],"convolution_without_padding")==0){
