@@ -1,6 +1,6 @@
 #include "multiplication.h"
 
-std::vector<float> multiplication(Matrix &A, int m){
+std::vector<float> to_toeplitz(Matrix &A, int m){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
 
