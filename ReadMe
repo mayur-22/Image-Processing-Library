@@ -15,3 +15,12 @@
 
 #for application of softmax function with the vector stored in vecFileName
     ./main.o softmax vecFileName
+
+#for maxpooling with given stride command line should be as follows assuming square matrices
+    ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size stride
+    --for default stride(equal to kernel order)
+        ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+#for averagepooling with given stride command line should be as follows assuming square matrices
+    ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size stride
+    --for default stride(equal to kernel order)
+        ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size

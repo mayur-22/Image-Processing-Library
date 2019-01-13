@@ -18,15 +18,18 @@
 #include "string"
 #include "sstream"
 
+
 using namespace std;
 
 Matrix::Matrix() {
+    matrix=nullptr;
 }
 
-Matrix::Matrx(Matrix& A){
-    matrix=A.get_Matrix();
-    num_rows=A.get_sizeofrow();
-    num_columns=A.get_sizeofcolumn();
+Matrix::Matrix(const Matrix &A){
+    vec=A.vec;
+    matrix=A.matrix;
+    num_rows=A.num_rows;
+    num_columns=A.num_columns;
 }
 
 Matrix::Matrix(vector<float> v){
@@ -44,6 +47,7 @@ Matrix::Matrix(int size,int rows,int columns){
 Matrix::Matrix(int size,int rows){
     matrix=new float[size];
     num_rows=rows;
+    num_columns=rows;
 }
 
 Matrix::Matrix(char* file_name, int rows, int columns){
@@ -98,7 +102,7 @@ Matrix::Matrix(char* file_name, int rows){
 Matrix::Matrix(char *file_name) {
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
-    num_rows=num_columns=0;
+    matrix=nullptr;
     if(!infile){
         throw "File not found";
     }
@@ -109,20 +113,31 @@ Matrix::Matrix(char *file_name) {
             vec.push_back(x);
         }
         infile.close();
+        num_rows=vec.size();
+        num_columns=1;
     }
 }
 
 Matrix::~Matrix() {
-    
+    if(matrix!=nullptr)
+        delete matrix;
+}
+
+void Matrix::print_matrix(){
+    for(int i=0;i<num_columns;i++){
+     for(int j=0;j<num_rows;j++)
+         cout<<matrix[i*num_rows+num_columns]<<" ";
+     cout<<endl;
+    }
 }
 
 void Matrix::set_Matrix(float* ptr){
     matrix=ptr;
 }
-void Matrix::add_Element(float x,int i,int j){
+inline void Matrix::add_Element(float x,int i,int j){
     matrix[i*num_rows+j]=x;
 }
-float Matrix::get_Element(int x, int y){
+inline float Matrix::get_Element(int x, int y){
     return matrix[x*num_rows+y];
 }
 
