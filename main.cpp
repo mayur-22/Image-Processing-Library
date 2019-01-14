@@ -107,6 +107,7 @@ int main(int argc, char** argv) {
             Matrix A(argv[2]);
             softmax s;
             Matrix B(s.soft_max(A.get_Vec()));
+            B.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
                 cout<<"\n--Vector cannot be read--\n";
@@ -128,6 +129,7 @@ int main(int argc, char** argv) {
             Matrix A(argv[2]);
             sigmoid s;
             Matrix B(s.sig_moid(A.get_Vec()));
+            B.print_matrix();
             
         }
         else{
@@ -153,7 +155,7 @@ int main(int argc, char** argv) {
             C.print_matrix();
             
         }
-        else if(argc==6){
+        else if(argc==5){
             
             Matrix A(argv[2],atoi(argv[3]));
             pooling pool_red;
@@ -185,7 +187,6 @@ int main(int argc, char** argv) {
         }
         else if(argc==5){
             Matrix A(argv[2],atoi(argv[3]));
-            Matrix B(argv[4],atoi(argv[5]));
             pooling pool_red;
             Matrix C(pool_red.average_pooling(A,atoi(argv[4])));
             C.print_matrix();

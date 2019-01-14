@@ -14,13 +14,14 @@
 #ifndef SOFTMAX_H
 #define SOFTMAX_H
 #include <vector>
+#include "Matrix.h"
 
 class softmax
  {
  public:
  	softmax();
  	~softmax();
- 	std::vector<float> soft_max(std::vector<float> v);
+ 	Matrix soft_max(std::vector<float> v);
  	
  }; 
 

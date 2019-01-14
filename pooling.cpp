@@ -22,14 +22,14 @@ pooling::~pooling(){
 Matrix pooling::max_pooling(Matrix &A, int m,int stride){
         int n = A.get_sizeofrow();
         if(stride==0)
-            stride=m;
+            stride=1;
         int lim=ceil((n-m)/stride);
 	vector<float> ans;		//column priority
 	float max = 0.00;
 	//assuming i,j will give element of ith row and jth column
         
-	for(int y=0;y<n;y+=stride){
-		for(int x=0;x<n;x+=stride){
+	for(int y=0;(y<n)&&(y+m<=n);y+=stride){
+		for(int x=0;(x<n)&&(x+m<=n);x+=stride){
 			max = numeric_limits<float>::min();
 			for (int i = 0; (i < m)&&((i+x)<n); ++i){
 				for (int j = 0; (j < m)&&((j+y)<n); ++j){
@@ -40,7 +40,7 @@ Matrix pooling::max_pooling(Matrix &A, int m,int stride){
 			ans.push_back(max);
 		}
 	}
-        Matrix R(&ans[0],lim);
+        Matrix R(&ans[0],lim+1);
 	return R;
 
 }
@@ -48,25 +48,25 @@ Matrix pooling::max_pooling(Matrix &A, int m,int stride){
 Matrix pooling:: average_pooling(Matrix &A, int m,int stride){
 	int n = A.get_sizeofrow();
 	if(stride==0)
-            stride=m;
+            stride=1;
         int lim=ceil((n-m)/stride);
 	vector<float> ans;		//column priority
 	float sum = 0.00;
 	
 	//assuming i,j will give element of ith row and jth column
 
-	for(int y=0;y<n;y+=stride){
-		for(int x=0;x<n;x+=stride){
+	for(int y=0;(y<n)&&(y+m<=n);y+=stride){
+		for(int x=0;(x<n)&&(x+m<=n);x+=stride){
 			sum = 0.00;
-			for (int i = 0; i < m; ++i){
-				for (int j = 0; j < m; ++j){
+			for (int i = 0; (i < m)&&((i+x)<n); ++i){
+				for (int j = 0; (j < m)&&((j+y)<n); ++j){
 					sum += A.get_Element(j+y,i+x);
 				}
 			}
 			ans.push_back(sum/(m*m));
 		}
 	}
-        Matrix R(&ans[0],lim);
+        Matrix R(&ans[0],lim+1);
 	return R;
 
 }

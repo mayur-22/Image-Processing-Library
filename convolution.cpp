@@ -30,19 +30,21 @@ Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 	int n = A.get_sizeofrow();
 	int m = B.get_sizeofrow();
 	
-	if(m%2==0){			//if m is even
+	if(m%2!=0){			//if m is even
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
 				try{
-				int sum = 0.00;
+				float sum = 0.00;
 				for (int u = -(m-1)/2; u <= m/2; ++u){
 					for (int v = -(m-1)/2; v <= m/2; ++v){
-						sum+=A.get_Element(v+u,x+u,true)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(v+(m/2),u+(m/2));
 					}
 				}
 				ans.push_back(sum);
 				}
-				catch(char *msg){}
+				catch(const char *msg){
+                                    continue;
+                                }
 			}
 		}
 	}
@@ -51,15 +53,17 @@ Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
 				try{
-				int sum = 0.00;
+				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						sum+=A.get_Element(v+u,x+u,true)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(v+(m/2),u+(m/2));
 					}
 				}
 				ans.push_back(sum);
 				}
-				catch(char *msg){}
+				catch(const char *msg){
+                                    continue;
+                                }
 			}
 		}
 
@@ -73,13 +77,13 @@ Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 	int n = A.get_sizeofrow();
 	int m = B.get_sizeofrow();
 	
-	if(m%2==0){			//if m is even
+	if(m%2!=0){			//if m is even
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
-				int sum = 0.00;
+				float sum = 0.00;
 				for (int u = -(m-1)/2; u <= m/2; ++u){
 					for (int v = -(m-1)/2; v <= m/2; ++v){
-						sum+=A.get_Element(v+u,x+u,false)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(v+(m/2),u+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -90,10 +94,10 @@ Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 	else{
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
-				int sum = 0.00;
+				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						sum+=A.get_Element(v+u,x+u,false)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(v+(m/2),u+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -112,15 +116,20 @@ Matrix convolution::to_toeplitz(Matrix &A, int m){
 	for (int i = 0; i < n-m+1 ; ++i){
 		for (int j = 0; j < n-m+1; ++j){
 			for (int u = 0; u < m; ++u){
+                            try{
 				for (int v = 0; v < m; ++v){
-					ans.push_back(A.get_Element(j+v,i+u));
+					ans.push_back(A.get_Element(i+u,j+v,true));
                                         r++;
 				}
+                            }
+                            catch(const char *msg){
+                                continue;
+                            }
 			}
 		}
 	}
-        Matrix R(&ans[0],m,r/m);
-	return R;
+        Matrix R(&ans[0],r/(m*m),(m*m));
+        return R;
 
 }
 
@@ -128,12 +137,13 @@ Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
         int r=0;
-	if(m%2==0){			//if m is even
+	if(m%2!=0){			//if m is even
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
 				for (int u = -(m-1)/2; u <= m/2; ++u){
 					for (int v = -(m-1)/2; v <= m/2; ++v){
-						ans.push_back(A.get_Element(v+u,x+u,false));
+						ans.push_back(A.get_Element(x+u,v+y,false));
+                                                r++;
 					}
 				}
 			}
@@ -143,17 +153,18 @@ Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 	else{
 		for (int x = 0; x < n; ++x){
 			for (int y = 0; y < n; ++y){
-				int sum = 0.00;
+				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						ans.push_back(A.get_Element(v+u,x+u,false));
+						ans.push_back(A.get_Element(v+y,x+u,false));
+                                                r++;
 					}
 				}
 			}
 		}
 
 	}
-        Matrix R(&ans[0],m,r/m);
+        Matrix R(&ans[0],r/(m*m),(m*m));
 	return R;
 
 }
@@ -161,11 +172,13 @@ Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 Matrix convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     Matrix C=to_toeplitz(A,B.get_sizeofrow());
     Matrix D=to_toeplitz(B,B.get_sizeofrow());
-    return C.mult_matrix(C,D);
+    D=Matrix(D.get_Matrix(),B.get_sizeofrow()*B.get_sizeofrow(),1);
+    return Matrix((C.mult_matrix(C,D)).get_Matrix(),A.get_sizeofrow()-B.get_sizeofrow()+1);
 }
 
 Matrix convolution::conv_mult_withpadding(Matrix& A, Matrix& B){
     Matrix C=to_toeplitz_padded(A,B.get_sizeofrow());
     Matrix D=to_toeplitz(B,B.get_sizeofrow());
-    return C.mult_matrix(C,D);
+    D=Matrix(D.get_Matrix(),B.get_sizeofrow()*B.get_sizeofrow(),1);
+    return Matrix((C.mult_matrix(C,D)).get_Matrix(),A.get_sizeofrow()-B.get_sizeofrow()+1);
 }

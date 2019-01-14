@@ -33,11 +33,7 @@ Matrix::Matrix(const Matrix &A){
     num_columns=A.num_columns;
 }
 
-Matrix::Matrix(vector<float> v){
-    num_rows=0;
-    num_columns=0;
-    vec=v;
-}
+
 
 Matrix::Matrix(int size,int rows,int columns){
     matrix=new float[size];
@@ -84,6 +80,7 @@ Matrix::Matrix(char* file_name, int rows){
     }
     else{
         matrix=new float[rows*rows];
+        num_rows=num_columns=rows;
         string str;
         float x;
         for(int i=0;i<rows;i++){
@@ -91,13 +88,19 @@ Matrix::Matrix(char* file_name, int rows){
             stringstream fstr(str);
             for(int j=0;j<rows;j++){
                 fstr>>x;
-                matrix[i*rows+j]=x;
+                matrix[j*rows+i]=x;
             }
         }
     }
     infile.close();
 }
 
+Matrix::Matrix(vector <float> v){
+    vec=v;
+    num_rows=v.size();
+    num_columns=1;
+    matrix=nullptr;
+}
 Matrix::Matrix(float *ptr,int rows){
     matrix=ptr;
     num_rows=num_columns=rows;
@@ -134,10 +137,17 @@ Matrix::~Matrix() {
 }
 
 void Matrix::print_matrix(){
-    for(int i=0;i<num_columns;i++){
-     for(int j=0;j<num_rows;j++)
-         cout<<matrix[i*num_rows+num_columns]<<" ";
-     cout<<endl;
+    int x=0;
+    if(matrix!=nullptr)
+        for(int i=0;i<num_columns;i++){
+            for(int j=0;j<num_rows;j++)
+                cout<<matrix[x++]<<" ";
+                cout<<endl;
+        }
+    else{
+        for(int i=0;i<vec.size();i++){
+            cout<<vec[i]<<" ";
+        }
     }
 }
 
@@ -148,11 +158,11 @@ inline void Matrix::add_Element(float x,int i,int j){
     matrix[i*num_rows+j]=x;
 }
 float Matrix::get_Element(int x, int y){
-    return matrix[x*num_rows+y];
+    return matrix[x*num_columns+y];
 }
 
 float Matrix::get_Element(int x, int y,bool exc){
-    if(x>=num_rows||y>=num_columns){
+    if(x>=num_rows||y>=num_columns||x<0||y<0){
         if(exc)
             throw "Illegal matrix access";
         else
@@ -188,23 +198,33 @@ Matrix Matrix::mult_matrix(Matrix& A, Matrix& B){
     float *ptr1=A.get_Matrix();
     int r1=A.get_sizeofrow();
     int c1=A.get_sizeofcolumn();
-    float *ptr2=A.get_Matrix();
+    float *ptr2=B.get_Matrix();
     int r2=B.get_sizeofrow();
     int c2=B.get_sizeofcolumn();
     if(c1!=r2)
         throw "Matrices incompatible for multiplication";
     float *result=new float[r1*c2];
     float *r=result;
-    for(int i=0;i<r1;i++)
+    /*for(int i=0;i<r1;i++)
         ptr1=A.get_Matrix()+i;
         for(int j=0;j<c1;j++){
             ptr2=B.get_Matrix()+j*r2;
+            *r=0;
             for(int k=0;k<c1;k++){
                 (*r)+=(*(ptr2++))*(*ptr1);
                 ptr1+=c1;
+                r++;
             }
-            r++;
-        }   
+            
+        }   */
+    int inc=0;
+    for(int i=0;i<r1;i++)
+        for(int j=0;j<c2;j++){
+            result[inc]=0;
+            for(int k=0;k<c1;k++)
+                result[inc]+=(A.get_Element(i,k))*(B.get_Element(k,j));
+            inc++;
+        }
     Matrix ret(result,r1,c2);
     return ret;
     

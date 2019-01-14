@@ -50,7 +50,10 @@ float *RElu::Relu(Matrix &A){
         int columns=A.get_sizeofcolumn();
 	float *matret=new float[rows*columns];
 	for(int i=0;i<rows*columns;i++)
-		matret[i]=fabs(mat[i]);
+            if(mat[i]>0)
+                matret[i]=mat[i];
+            else
+                matret[i]=0;
 	return matret;
 }
 vector <float> RElu::Relu(vector <float> input){

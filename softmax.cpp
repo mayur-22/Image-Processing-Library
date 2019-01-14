@@ -6,6 +6,7 @@
 
 #include "softmax.h"
 #include <cmath>
+#include "Matrix.h"
 
 softmax::softmax(){
     
@@ -14,7 +15,7 @@ softmax::softmax(){
 softmax::~softmax(){
     
 }
-std::vector<float> softmax::soft_max(std::vector<float> v){
+Matrix softmax::soft_max(std::vector<float> v){
 
 	std::vector<float> ans;
 	std::vector<float> expo;
@@ -28,7 +29,6 @@ std::vector<float> softmax::soft_max(std::vector<float> v){
 	for (std::vector<float>::iterator i = expo.begin(); i != expo.end(); ++i){
 		ans.push_back(*i/sum);
 	}
-
-	return ans;
-
+        Matrix R(ans);
+	return R;
 }

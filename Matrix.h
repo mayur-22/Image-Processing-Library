@@ -14,7 +14,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include "vector"
-
+using namespace std;
 class Matrix {
     
 public:
@@ -24,9 +24,9 @@ public:
     Matrix(char *file_name);
     Matrix(int size,int rows,int columns);
     Matrix(int size,int rows);
+    Matrix(vector <float> v);
     Matrix(float *ptr,int rows);
     Matrix(float *ptr,int rows,int columns);
-    Matrix(std:: vector<float> v);
     Matrix(const Matrix &A);
     float *get_Matrix();
     void set_Matrix(float *ptr);

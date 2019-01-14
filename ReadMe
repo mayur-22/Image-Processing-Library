@@ -18,11 +18,11 @@
 
 #for maxpooling with given stride command line should be as follows assuming square matrices
     ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size stride
-    --for default stride(equal to kernel order)
+    --for default stride(equal to 1)
         ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size
 #for averagepooling with given stride command line should be as follows assuming square matrices
     ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size stride
-    --for default stride(equal to kernel order)
+    --for default stride(equal to 1)
         ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size
 
 #convolution with padding--(without flipping the kernel and assuming square input matrices)
