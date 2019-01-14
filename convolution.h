@@ -21,6 +21,10 @@ public:
 	convolution();
 	Matrix conv_withoutpadding(Matrix &A,Matrix &B);
 	Matrix conv_withpadding(Matrix &A, Matrix &B);
+        Matrix conv_mult_withoutpadding(Matrix &A,Matrix &B);
+        Matrix conv_mult_withpadding(Matrix &A,Matrix &B);
+        Matrix to_toeplitz_padded(Matrix &A, int m);
+        Matrix to_toeplitz(Matrix &A, int m);
 	~convolution();
 	
 };

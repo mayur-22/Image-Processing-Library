@@ -234,13 +234,35 @@ int main(int argc, char** argv) {
         }
     }
     else if(strcmp(argv[1],"convolution_as_matrix_multiplication_without_padding")==0){
-        
+        if(argc==6){
+            Matrix A(argv[2],stoi(argv[3]));
+            Matrix B(argv[4],stoi(argv[5]));
+            convolution conv;
+            Matrix C(conv.conv_mult_withoutpadding(A,B));
+            C.print_matrix();
+        }
+        else{
+            cout<<"Invalid command\n"
+                <<"#convolution as matrix multiplication without padding--(without flipping the kernel and assuming square input matrices)\n"
+                <<"./main.o convolution_as_matrix_multiplication_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size\n";
+        }
     }
     else if(strcmp(argv[1],"convolution_as_matrix_multiplication_without_padding")==0){
-        
+        if(argc==6){
+            Matrix A(argv[2],stoi(argv[3]));
+            Matrix B(argv[4],stoi(argv[5]));
+            convolution conv;
+            Matrix C(conv.conv_mult_withpadding(A,B));
+            C.print_matrix();
+        }
+        else{
+            cout<<"Invalid command\n"
+                <<"#convolution as matrix multiplication with padding--(without flipping the kernel and assuming square input matrices)\n"
+                <<"./main.o convolution_as_matrix_multiplication_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size\n";
+        }
     }
     else{
-        
+        cout<<"Invalid command line\n Refer to ReadMe file for instructions\n";
     }
     
     return 0;

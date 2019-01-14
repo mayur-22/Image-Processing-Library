@@ -163,7 +163,9 @@ float Matrix::get_Element(int x, int y,bool exc){
 
 
 float Matrix::get_Element(int x){
-    return vec[x];
+    if(matrix==nullptr)
+        return vec[x];
+    return matrix[x];
 }
 
 float *Matrix::get_Matrix(){
@@ -180,4 +182,30 @@ int Matrix::get_sizeofrow(){
 
 int Matrix::get_sizeofcolumn(){
     return num_columns;
+}
+
+Matrix Matrix::mult_matrix(Matrix& A, Matrix& B){
+    float *ptr1=A.get_Matrix();
+    int r1=A.get_sizeofrow();
+    int c1=A.get_sizeofcolumn();
+    float *ptr2=A.get_Matrix();
+    int r2=B.get_sizeofrow();
+    int c2=B.get_sizeofcolumn();
+    if(c1!=r2)
+        throw "Matrices incompatible for multiplication";
+    float *result=new float[r1*c2];
+    float *r=result;
+    for(int i=0;i<r1;i++)
+        ptr1=A.get_Matrix()+i;
+        for(int j=0;j<c1;j++){
+            ptr2=B.get_Matrix()+j*r2;
+            for(int k=0;k<c1;k++){
+                (*r)+=(*(ptr2++))*(*ptr1);
+                ptr1+=c1;
+            }
+            r++;
+        }   
+    Matrix ret(result,r1,c2);
+    return ret;
+    
 }
