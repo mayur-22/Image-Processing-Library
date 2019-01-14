@@ -30,3 +30,9 @@
 
 #convolution without padding--(without flipping the kernel and assuming all square matrices)
     ./main.o convolution_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+
+#convolution as matrix multiplication without padding--(without flipping the kernel and assuming square input matrices)
+     "./main.o convolution_as_matrix_multiplication_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+
+#convolution as matrix multiplication with padding--(without flipping the kernel and assuming square input matrices)
+     "./main.o convolution_as_matrix_multiplication_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
