@@ -180,5 +180,5 @@ Matrix convolution::conv_mult_withpadding(Matrix& A, Matrix& B){
     Matrix C=to_toeplitz_padded(A,B.get_sizeofrow());
     Matrix D=to_toeplitz(B,B.get_sizeofrow());
     D=Matrix(D.get_Matrix(),B.get_sizeofrow()*B.get_sizeofrow(),1);
-    return Matrix((C.mult_matrix(C,D)).get_Matrix(),A.get_sizeofrow()-B.get_sizeofrow()+1);
+    return Matrix((C.mult_matrix(C,D)).get_Matrix(),A.get_sizeofrow());
 }
