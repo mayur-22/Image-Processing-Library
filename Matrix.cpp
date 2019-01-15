@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The Matrix class has been defined to encapsulate all the matrix and vector operations. 
+ * This class includes all the methods for reading matrices and vectors from files, storing the data as standard C++ vectors for vector
+ * data and contiguous array for matrices,printing the data to console output in row-major format, data manipulation functions and accessor
+ * fucntions.
  */
 
 /* 
@@ -24,8 +25,10 @@ using namespace std;
 
 Matrix::Matrix() {
     matrix=nullptr;
+    num_rows=num_columns=0;
 }
 
+//copy constructor
 Matrix::Matrix(const Matrix &A){
     vec=A.vec;
     matrix=A.matrix;
@@ -34,19 +37,24 @@ Matrix::Matrix(const Matrix &A){
 }
 
 
-
+//constructor for creating an empty matrix with given rows and columns
 Matrix::Matrix(int size,int rows,int columns){
     matrix=new float[size];
     num_rows=rows;
     num_columns=columns;
 }
 
+//constructor for creating empty square matrix
 Matrix::Matrix(int size,int rows){
     matrix=new float[size];
     num_rows=rows;
     num_columns=rows;
 }
 
+/*
+ * This constructor reads data from file file_name and 
+ * stores as a matrix with given values of rows and columns in a row-major format.
+*/
 Matrix::Matrix(char* file_name, int rows, int columns){
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
@@ -68,10 +76,13 @@ Matrix::Matrix(char* file_name, int rows, int columns){
             }
         }
     }
-    infile.close();
-    
+    infile.close();  
 }
 
+/*
+  * This constructor reads data from file file_name and 
+  * stores as a square matrix with given order.
+*/
 Matrix::Matrix(char* file_name, int rows){
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
@@ -95,23 +106,28 @@ Matrix::Matrix(char* file_name, int rows){
     infile.close();
 }
 
+//stores the input as a vector taken from the parameter 
 Matrix::Matrix(vector <float> v){
     vec=v;
     num_rows=v.size();
     num_columns=1;
     matrix=nullptr;
 }
+
+//stores the data pointed by ptr as a suqare matrix of order rows assuming data to be row-major.
 Matrix::Matrix(float *ptr,int rows){
     matrix=ptr;
     num_rows=num_columns=rows;
 }
 
+//stores the data pointed by ptr as a matrix with given rows and columns assuming data to be row-major.
 Matrix::Matrix(float *ptr,int rows,int columns){
     matrix=ptr;
     num_rows=rows;
     num_columns=columns;
 }
 
+//redas file file_name and stores the data as a vector
 Matrix::Matrix(char *file_name) {
     ifstream infile;
     infile.open(file_name,ios::binary|ios::in);
@@ -131,11 +147,18 @@ Matrix::Matrix(char *file_name) {
     }
 }
 
+//Destructor function
 Matrix::~Matrix() {
     if(matrix!=nullptr)
         delete matrix;
 }
 
+/*
+ * Function for printing the data to console output
+ * vectors--prints each value in one line
+ * matrices--prints in row-major order with each line containing values from one row separated by spaces
+*/
+  
 void Matrix::print_matrix(){
     int x=0;
     if(matrix!=nullptr)
@@ -154,13 +177,22 @@ void Matrix::print_matrix(){
 void Matrix::set_Matrix(float* ptr){
     matrix=ptr;
 }
+
+
 inline void Matrix::add_Element(float x,int i,int j){
     matrix[i*num_rows+j]=x;
 }
+
+//Returns element stored at x-th row and y-th column in the matrix without any check
 float Matrix::get_Element(int x, int y){
     return matrix[x*num_columns+y];
 }
 
+/*
+ * Returns element stored at x-th row and y-th column in the matrix
+ * --if exc is true : exception is thrown for out of bounds access
+ * --if exc is false : returns 0 when out of bounds access
+*/
 float Matrix::get_Element(int x, int y,bool exc){
     if(x>=num_rows||y>=num_columns||x<0||y<0){
         if(exc)
@@ -171,13 +203,14 @@ float Matrix::get_Element(int x, int y,bool exc){
     return matrix[x*num_rows+y];
 }
 
-
+// returns x-th entry in the vector or the matrix (row-major)
 float Matrix::get_Element(int x){
     if(matrix==nullptr)
         return vec[x];
     return matrix[x];
 }
 
+//returns the pointer to matrix
 float *Matrix::get_Matrix(){
     return this->matrix;
 }
