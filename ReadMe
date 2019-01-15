@@ -1,8 +1,30 @@
 IMAGE PROCESSING LIBRARY 
+SUBTASK-1
 
+Project Description:
+
+This project contains some simple implementations for an image processing library. We implpement convolution of square matrices without 
+padding and with zero padding through two ways- by simple convolution and by the use of matrix multiplication after converting the data
+matrix to a Toeplitzian matrix.
+
+We implemented ReLU and tanh activation functions on data given in a matrix and have made for max pooling and average pooling of data 
+matrices. Implementation of sigmoid and softmax functions on vectors has also been implemented.
+
+Introduction:
+
+The project contains simple implementations of the functions and we tried to keep the project as much modular as possible, introducing 
+abstraction whereever possible. For the different functions we have created classes corresponding to the special functions. These include
+Tanh,RElu,softmax,sigmoid,pooling and convolution. Besides this we have created a class DtException for implementing error handling more
+in our way and a Matrix class that serves as the abstraction for all the functions related to reading and saving data and keeping record
+of each data object that we are concerned with.
+
+The Matrix class was of great help as we were unconcerned with these basic functions in the other programs. Any change regarding data 
+input, storage or book-keeping was handled concisely by that class.
+
+How to run?
 
 #for relu function the command line shall be as follows:
-    --for square matrices of dimension dim
+    --for square matrices of given dimension 
         ./main ReLU matFileName  num_rows
     --for other matrices of any dimension
         ./main ReLU matFileName num_rows num_columns
@@ -39,3 +61,8 @@ IMAGE PROCESSING LIBRARY
 
 #convolution as matrix multiplication with padding--(without flipping the kernel and assuming square input matrices)
      ./main convolution_as_matrix_multiplication_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+
+Contributors:
+
+Mayur Solanki 2017CS10349
+Mohammad Kamal Ashraf 2017CS10589
