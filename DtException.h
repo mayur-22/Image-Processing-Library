@@ -22,6 +22,7 @@ public:
     string message,file_n;
     DtException();
     DtException(string);
+    DtException(string, char *);
     const char * what () const throw ();
     void getMessage();
 private:
