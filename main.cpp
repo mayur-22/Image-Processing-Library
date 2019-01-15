@@ -208,11 +208,19 @@ int main(int argc, char** argv) {
     }
     else if(strcmp(argv[1],"convolution_without_padding")==0){
         if(argc==6){
+            try{
             Matrix A(argv[2],stoi(argv[3]));
             Matrix B(argv[4],stoi(argv[5]));
             convolution conv;
             Matrix C(conv.conv_withoutpadding(A,B));
             C.print_matrix();
+            }catch(DtException& e){
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
+            }
+            catch(exception& e){
+                cout<<"Standard Exception: "<<endl;
+            }
         }
         else{
             cout<<"Invalid command\n"
@@ -222,11 +230,19 @@ int main(int argc, char** argv) {
     }
     else if(strcmp(argv[1],"convolution_with_padding")==0){
         if(argc==6){
+            try{
             Matrix A(argv[2],stoi(argv[3]));
             Matrix B(argv[4],stoi(argv[5]));
             convolution conv;
             Matrix C(conv.conv_withpadding(A,B));
             C.print_matrix();
+                }catch(DtException& e){
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
+            }
+            catch(exception& e){
+                cout<<"Standard Exception: "<<endl;
+            }
         }
         else{
             cout<<"Invalid command\n"
@@ -236,11 +252,19 @@ int main(int argc, char** argv) {
     }
     else if(strcmp(argv[1],"convolution_as_matrix_multiplication_without_padding")==0){
         if(argc==6){
+            try{
             Matrix A(argv[2],stoi(argv[3]));
             Matrix B(argv[4],stoi(argv[5]));
             convolution conv;
             Matrix C(conv.conv_mult_withoutpadding(A,B));
             C.print_matrix();
+            }catch(DtException& e){
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
+            }
+            catch(exception& e){
+                cout<<"Standard Exception: "<<endl;
+            }
         }
         else{
             cout<<"Invalid command\n"
@@ -250,11 +274,19 @@ int main(int argc, char** argv) {
     }
     else if(strcmp(argv[1],"convolution_as_matrix_multiplication_with_padding")==0){
         if(argc==6){
+            try{
             Matrix A(argv[2],stoi(argv[3]));
             Matrix B(argv[4],stoi(argv[5]));
             convolution conv;
             Matrix C(conv.conv_mult_withpadding(A,B));
             C.print_matrix();
+            }catch(DtException& e){
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
+            }
+            catch(exception& e){
+                cout<<"Standard Exception: "<<endl;
+            }
         }
         else{
             cout<<"Invalid command\n"
