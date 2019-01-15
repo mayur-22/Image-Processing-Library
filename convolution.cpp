@@ -1,15 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class contains all the functions for generating the convolution of a matrix with given kernel.
+ * --One as direct convolution with and without padding.
+ * --Other using toeplpitz matrices and matrix multiplication to do the same with and without padding.
  */
 
-/* 
- * File:   convolution.cpp
- * Author: mohd.kamal asraf
- * 
- * Created on 13 January, 2019, 6:47 PM
- */
 
 #include "convolution.h"
 #include "Matrix.h"
@@ -25,6 +19,7 @@ convolution::~convolution(){
     
 }
 
+//Function that takes two matrices data as Matrix objects and then performs covolution without padding
 Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
@@ -72,6 +67,8 @@ Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 	return R;
 }
 
+//Function that takes two matrices data as Matrix objects and then performs covolution with zero padding and 
+//returns the resultant matrix as a Matrix object
 Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
@@ -109,6 +106,7 @@ Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 	return R;
 }
 
+//Function to convert a matrix to corresponding toeplitz matrix using the given kernel order without any padding
 Matrix convolution::to_toeplitz(Matrix &A, int m){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
@@ -133,6 +131,7 @@ Matrix convolution::to_toeplitz(Matrix &A, int m){
 
 }
 
+//Function to convert a matrix to corresponding toeplitz matrix using the given kernel order with zero padding to preserve the sizes
 Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 	std::vector<float> ans;
 	int n = A.get_sizeofrow();
@@ -169,6 +168,8 @@ Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 
 }
 
+//Function to perform convolution of a matrix using matrix multiplication
+//--First it calls to_toeplitz and then calls mat_mult fiunction of Matrix class to form the resultant matrix
 Matrix convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     Matrix C=to_toeplitz(A,B.get_sizeofrow());
     Matrix D=to_toeplitz(B,B.get_sizeofrow());
@@ -176,6 +177,9 @@ Matrix convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     return Matrix((C.mult_matrix(C,D)).get_Matrix(),A.get_sizeofrow()-B.get_sizeofrow()+1);
 }
 
+
+//Function to perform convolution of a matrix using matrix multiplication with zero padding to preserve size
+//--First it calls to_toeplitz_padded and then calls mat_mult fiunction of Matrix class to form the resultant matrix
 Matrix convolution::conv_mult_withpadding(Matrix& A, Matrix& B){
     Matrix C=to_toeplitz_padded(A,B.get_sizeofrow());
     Matrix D=to_toeplitz(B,B.get_sizeofrow());
