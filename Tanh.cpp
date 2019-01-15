@@ -1,14 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   tanh.cpp
- * Author: mohd.kamal asraf
- * 
- * Created on 13 January, 2019, 10:43 AM
+ * This class contains the functions for applying tanh to data given in form of a Matrix object.
  */
 
 #include "tanh.h"
@@ -34,6 +25,7 @@ float *Tanh::Tanh_internal(Matrix &A){
 	return matret;
 }
 
+//public function that takes a matrix object and returns a matrix after applying tanh to each data element
 Matrix Tanh::Tanh_mat(Matrix &A){
     float *r=Tanh_internal(A);
     Matrix B(r,A.get_sizeofrow(),A.get_sizeofcolumn());
