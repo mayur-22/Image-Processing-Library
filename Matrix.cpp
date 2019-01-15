@@ -68,10 +68,8 @@ Matrix::Matrix(char* file_name, int rows, int columns){
         string str;
         float x;
         for(int i=0;i<columns;i++){
-            getline(infile,str);
-            stringstream fstr(str);
             for(int j=0;j<rows;j++){
-                fstr>>x;
+                infile>>x;
                 matrix[i*rows+j]=x;
             }
         }
@@ -95,10 +93,8 @@ Matrix::Matrix(char* file_name, int rows){
         string str;
         float x;
         for(int i=0;i<rows;i++){
-            getline(infile,str);
-            stringstream fstr(str);
-            for(int j=0;j<rows;j++){
-                fstr>>x;
+           for(int j=0;j<rows;j++){
+                infile>>x;
                 matrix[j*rows+i]=x;
             }
         }
@@ -180,7 +176,7 @@ void Matrix::set_Matrix(float* ptr){
 
 
 inline void Matrix::add_Element(float x,int i,int j){
-    matrix[i*num_rows+j]=x;
+    matrix[i*num_columns+j]=x;
 }
 
 //Returns element stored at x-th row and y-th column in the matrix without any check
@@ -200,7 +196,7 @@ float Matrix::get_Element(int x, int y,bool exc){
         else
             return 0;
     }
-    return matrix[x*num_rows+y];
+    return matrix[x*num_columns+y];
 }
 
 // returns x-th entry in the vector or the matrix (row-major)
@@ -242,18 +238,6 @@ Matrix Matrix::mult_matrix(Matrix& A, Matrix& B){
         throw "Matrices incompatible for multiplication";
     float *result=new float[r1*c2];
     float *r=result;
-    /*for(int i=0;i<r1;i++)
-        ptr1=A.get_Matrix()+i;
-        for(int j=0;j<c1;j++){
-            ptr2=B.get_Matrix()+j*r2;
-            *r=0;
-            for(int k=0;k<c1;k++){
-                (*r)+=(*(ptr2++))*(*ptr1);
-                ptr1+=c1;
-                r++;
-            }
-            
-        }   */
     int inc=0;
     for(int i=0;i<r1;i++)
         for(int j=0;j<c2;j++){
