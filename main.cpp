@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
         
         }catch(DtException& e){
                 e.getMessage();
-                cout<<"\n--Matrix cannot be read--\n";
+                cout<<"\n--Vector cannot be read--\n";
             }
             catch(exception& e){
                 cout<<"Standard Exception: "<<endl;
@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
             C.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<"\n--Matrix cannot be read--\n";
+                
             }
             catch(exception& e){
                 cout<<"Standard Exception: "<<endl;
@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
             C.print_matrix();
                 }catch(DtException& e){
                 e.getMessage();
-                cout<<"\n--Matrix cannot be read--\n";
+                
             }
             catch(exception& e){
                 cout<<"Standard Exception: "<<endl;
@@ -260,7 +260,7 @@ int main(int argc, char** argv) {
             C.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<"\n--Matrix cannot be read--\n";
+                
             }
             catch(exception& e){
                 cout<<"Standard Exception: "<<endl;
@@ -282,7 +282,7 @@ int main(int argc, char** argv) {
             C.print_matrix();
             }catch(DtException& e){
                 e.getMessage();
-                cout<<"\n--Matrix cannot be read--\n";
+                
             }
             catch(exception& e){
                 cout<<"Standard Exception: "<<endl;
