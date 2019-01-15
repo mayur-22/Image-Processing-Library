@@ -1,15 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ * This class contains the functions for returning the ReLU activated values for a matrix input given 
+ * as an object of Matrix class.
+*/
 
-/* 
- * File:   RElu.cpp
- * Author: mohd.kamal asraf
- * 
- * Created on 12 January, 2019, 9:21 AM
- */
 
 #include "RElu.h"
 #include "cmath"
@@ -19,31 +12,15 @@ using namespace std;
 
 RElu::RElu() {
 }
-/*
-float *RElu::Relu_vec(float *input,int rows, int columns){
-    float *ret=new float[columns*rows];
-    float *r=ret;
-    int lim=columns*rows;
-    for(int i=0;i<lim;i++)
-        *(ret++)=*(input+i);
-    return ret;
-}
 
-float *RElu::Relu_vec(float *input,int rows){
-    float *ret=new float[rows*rows];
-    float *r=ret;
-    int lim=rows*rows;
-    for(int i=0;i<lim;i++)
-        *(ret++)=*(input+i);
-    return ret;
-}
-*/
+
 Matrix RElu::Relu_mat(Matrix &A){
     float *r=Relu(A);
     Matrix B(r,A.get_sizeofrow(),A.get_sizeofcolumn());
     return B;
 }            
 
+//returns the matrix after applying ReLU on each element
 float *RElu::Relu(Matrix &A){
         float *mat=A.get_Matrix();
         int rows=A.get_sizeofrow();
@@ -56,6 +33,8 @@ float *RElu::Relu(Matrix &A){
                 matret[i]=0;
 	return matret;
 }
+
+//performs ReLU on each input of a given vector
 vector <float> RElu::Relu(vector <float> input){
     vector <float> rest;
     vector <float>::iterator iter;
