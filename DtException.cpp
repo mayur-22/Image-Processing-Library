@@ -19,13 +19,19 @@ DtException::DtException() {
 }
 
 DtException::DtException(string errmsg) {
+    file_n="";
+    message=errmsg;
+}
+
+DtException::DtException(string errmsg,string filename) {
+    file_n=filename;
     message=errmsg;
 }
 const char *DtException:: what () const throw () {
       return "Data Error";
    }
 void DtException::getMessage () {
-    cout<<message;
+    cout<<message<<" "<<file;
    }
 
 
