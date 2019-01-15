@@ -1,38 +1,38 @@
 #for relu function the command line shall be as follows:
     --for square matrices of dimension dim
-        ./main.o ReLU matFileName  num_rows
+        ./main ReLU matFileName  num_rows
     --for other matrices of any dimension
-        ./main.o ReLU matFileName num_rows num_columns
+        ./main ReLU matFileName num_rows num_columns
 
 #for application of tanh on a matrix contained in a file
     --for square matrices of dimension dim
-        ./main.o tanh matFileName  dim
+        ./main tanh matFileName  dim
     --for other matrices of any dimension
-        ./main.o tanh matFileName num_rows num_columns
+        ./main tanh matFileName num_rows num_columns
 
 #for application of sigmoid function with the vector stored in vecFileName
-    ./main.o sigmoid vecFileName
+    ./main sigmoid vecFileName
 
 #for application of softmax function with the vector stored in vecFileName
-    ./main.o softmax vecFileName
+    ./main softmax vecFileName
 
 #for maxpooling with given stride command line should be as follows assuming square matrices
-    ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size stride
+    ./main max_pool data_Matrix_File data_Matrix_Size kernel_Size stride
     --for default stride(equal to 1)
-        ./main.o max_pool data_Matrix_File data_Matrix_Size kernel_Size
+        ./main max_pool data_Matrix_File data_Matrix_Size kernel_Size
 #for averagepooling with given stride command line should be as follows assuming square matrices
-    ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size stride
+    ./main average_pool data_Matrix_File data_Matrix_Size kernel_Size stride
     --for default stride(equal to 1)
-        ./main.o average_pool data_Matrix_File data_Matrix_Size kernel_Size
+        ./main average_pool data_Matrix_File data_Matrix_Size kernel_Size
 
 #convolution with padding--(without flipping the kernel and assuming square input matrices)
-    ./main.o convolution_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+    ./main convolution_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
 
 #convolution without padding--(without flipping the kernel and assuming all square matrices)
-    ./main.o convolution_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+    ./main convolution_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
 
 #convolution as matrix multiplication without padding--(without flipping the kernel and assuming square input matrices)
-     "./main.o convolution_as_matrix_multiplication_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+     ./main convolution_as_matrix_multiplication_without_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
 
 #convolution as matrix multiplication with padding--(without flipping the kernel and assuming square input matrices)
-     "./main.o convolution_as_matrix_multiplication_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
+     ./main convolution_as_matrix_multiplication_with_padding data_Matrix_File data_Matrix_Size kernel_Matrix_File kernel_Matrix_Size
