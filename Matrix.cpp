@@ -235,7 +235,7 @@ Matrix Matrix::mult_matrix(Matrix& A, Matrix& B){
     int r2=B.get_sizeofrow();
     int c2=B.get_sizeofcolumn();
     if(c1!=r2)
-        throw "Matrices incompatible for multiplication";
+        throw DtException("Matrices incompatible for multiplication");
     float *result=new float[r1*c2];
     float *r=result;
     int inc=0;
