@@ -1,3 +1,6 @@
+IMAGE PROCESSING LIBRARY 
+
+
 #for relu function the command line shall be as follows:
     --for square matrices of dimension dim
         ./main ReLU matFileName  num_rows
