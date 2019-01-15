@@ -37,7 +37,7 @@ Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 				float sum = 0.00;
 				for (int u = -(m-1)/2; u <= m/2; ++u){
 					for (int v = -(m-1)/2; v <= m/2; ++v){
-						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(u+(m/2),v+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -56,7 +56,7 @@ Matrix convolution::conv_withoutpadding(Matrix &A, Matrix &B){
 				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,true)*B.get_Element(u+(m/2),v+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -83,7 +83,7 @@ Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 				float sum = 0.00;
 				for (int u = -(m-1)/2; u <= m/2; ++u){
 					for (int v = -(m-1)/2; v <= m/2; ++v){
-						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(u+(m/2),v+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -97,7 +97,7 @@ Matrix convolution::conv_withpadding(Matrix &A, Matrix &B){
 				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(v+(m/2),u+(m/2));
+						sum+=A.get_Element(x+u,v+y,false)*B.get_Element(u+(m/2),v+(m/2));
 					}
 				}
 				ans.push_back(sum);
@@ -156,7 +156,7 @@ Matrix convolution::to_toeplitz_padded(Matrix &A, int m){
 				float sum = 0.00;
 				for (int u = -m/2; u <= (m-1)/2; ++u){
 					for (int v = -m/2; v <= (m-1)/2; ++v){
-						ans.push_back(A.get_Element(v+y,x+u,false));
+						ans.push_back(A.get_Element(x+u,v+y,false));
                                                 r++;
 					}
 				}
