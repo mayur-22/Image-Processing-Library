@@ -215,18 +215,22 @@ float *Matrix::get_Matrix(){
     return this->matrix;
 }
 
+//returns the vector data
 vector<float> Matrix::get_Vec(){
     return this->vec;
 }
 
+//returns the number row of matrix or the number of elements in the vector
 int Matrix::get_sizeofrow(){
     return num_rows;
 }
 
+//returns the number of columns
 int Matrix::get_sizeofcolumn(){
     return num_columns;
 }
 
+//simple multiplication of matrices A and B
 Matrix Matrix::mult_matrix(Matrix& A, Matrix& B){
     float *ptr1=A.get_Matrix();
     int r1=A.get_sizeofrow();
