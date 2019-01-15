@@ -19,7 +19,7 @@
 using namespace std;
 class DtException : public exception{
 public:
-    string message;
+    string message,file_n;
     DtException();
     DtException(string);
     const char * what () const throw ();
