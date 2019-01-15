@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This is an exception class defined for catching the exceptions when unable to open the files or some other errors.
  */
 
 /* 
@@ -23,7 +21,7 @@ DtException::DtException(string errmsg) {
     message=errmsg;
 }
 
-DtException::DtException(string errmsg,string filename) {
+DtException::DtException(string errmsg,char *filename) {
     file_n=filename;
     message=errmsg;
 }
