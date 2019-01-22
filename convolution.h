@@ -23,6 +23,8 @@ public:
 	Matrix conv_withpadding(Matrix &A, Matrix &B);
 	void * mult_matrix_threaded(void *arguments);
 	void * to_toeplitz_threaded(void * arg);
+	static void *mult_matrix_threaded_helper(void *con);
+	// static void *to_toeplitz_threaded_helper(void *con);
         Matrix conv_mult_withoutpadding(Matrix &A,Matrix &B);
         Matrix conv_mult_withpadding(Matrix &A,Matrix &B);
         Matrix to_toeplitz_padded(Matrix &A, int m);
