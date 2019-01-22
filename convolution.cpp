@@ -17,6 +17,7 @@ using namespace std;
 
 typedef struct All
 {
+	convolution helper;
 	Matrix *mat;
 	int start,m;
 	std::vector<float> result;
@@ -24,6 +25,7 @@ typedef struct All
 }all;
 
 typedef struct Two_matrix{
+	convolution helper;
     Matrix *mat1;
     Matrix *mat2;
     int start;
@@ -153,7 +155,7 @@ Matrix convolution::to_toeplitz(Matrix &A, int m){
 
 //Function to convert a matrix to corresponding toeplitz matrix using the given kernel order without any padding
 // Matrix convolution::to_toeplitz(Matrix &A, int m, int n){  //n =A.get_sizeofrow();
-	void * convolution::to_toeplitz_threaded(void * arg){
+	void * to_toeplitz_threaded(void * arg){
     
     all * arguments = (all *)arg;
     Matrix *A = (arguments->mat);		
@@ -183,6 +185,11 @@ Matrix convolution::to_toeplitz(Matrix &A, int m){
         arguments->result = ans;
         pthread_exit(0);
 
+}
+
+static void *to_toeplitz_threaded_helper(void *con){
+	all *temp = (all *)con;
+	return temp->helper.to_toeplitz_threaded(con);
 }
 
 //Function to convert a matrix to corresponding toeplitz matrix using the given kernel order with zero padding to preserve the sizes
@@ -239,7 +246,7 @@ Matrix convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     	inputs[i].mat = &A;
     	inputs[i].start = i;
     	inputs[i].m = m;
-    	pthread_create(&ids[i],NULL,&to_toeplitz_threaded,&inputs[i]);
+    	pthread_create(&ids[i],NULL,to_toeplitz_threaded_helper,&inputs[i]);
 
     }
 
@@ -268,7 +275,7 @@ Matrix convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     	inpt[i].mat1=&C;
     	inpt[i].mat2=&D;
     	inpt[i].start= i*10;
-    	pthread_create(&thread_id[i],NULL,mult_matrix_threaded,&inpt[i]);
+    	pthread_create(&thread_id[i],NULL,mult_matrix_threaded_helper,&inpt[i]);
     }
 
     pthread_join(thread_id[0],NULL);
@@ -298,7 +305,7 @@ Matrix convolution::conv_mult_withpadding(Matrix& A, Matrix& B){
 
 
 //threaded multiplication
-void * convolution::mult_matrix_threaded(void *arguments){
+void * mult_matrix_threaded(void *arguments){
 
     two_matrix *args = (two_matrix *)arguments;
      Matrix *A = args->mat1;
@@ -335,5 +342,10 @@ void * convolution::mult_matrix_threaded(void *arguments){
    		args->result = result;
         pthread_exit(0);
 
+}
+
+static void *mult_matrix_threaded_helper(void *con){
+	two_matrix *temp = (two_matrix *)con;
+	return temp->helper.to_toeplitz_threaded(con);
 }
 
