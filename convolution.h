@@ -19,12 +19,11 @@ class convolution
 {
 public:
 	convolution();
-	Matrix* mkl_mult(Matrix& A, Matrix& B);
-	Matrix* mkl_mult_padded(Matrix& A, Matrix& B);
+	Matrix* openblas_mult(Matrix& A, Matrix& B);
+	Matrix* openblas_mult_padded(Matrix& A, Matrix& B);
 	Matrix conv_withoutpadding(Matrix &A,Matrix &B);
 	Matrix conv_withpadding(Matrix &A, Matrix &B);
 	Matrix *conv_mult_withpadding_threaded(Matrix& A, Matrix& B);
-	Matrix *conv_mult_withoutpadding_threaded(Matrix& A, Matrix& B);
 	static void *mult_matrix_threaded_helper(void *con);
 	static void *to_toeplitz_threaded_helper(void *con);
 	void * mult_matrix_threaded(void *arguments);

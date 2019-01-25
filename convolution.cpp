@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <pthread.h>
 #include "iostream"
-#include "mkl.h"
+#include <cblas.h>
 using namespace std;
 
 struct all
@@ -158,34 +158,34 @@ Matrix *convolution::to_toeplitz(Matrix &A, int m){
 //Function to convert a matrix to corresponding toeplitz matrix using the given kernel order with zero padding to preserve the sizes
 Matrix *convolution::to_toeplitz_padded(Matrix &A, int m){
 	float *ans=new float[A.get_sizeofrow()*A.get_sizeofrow()*m*m];
-	int n = A.get_sizeofrow();
+    int n = A.get_sizeofrow();
         int r=0;
-	if(m%2!=0){			//if m is even
-		for (int x = 0; x < n; ++x){
-			for (int y = 0; y < n; ++y){
-				for (int u = -(m-1)/2; u <= m/2; ++u){
-					for (int v = -(m-1)/2; v <= m/2; ++v){
-						ans[r] = A.get_Element(x+u,v+y,false);
+    if(m%2!=0){         //if m is even
+        for (int x = 0; x < n; ++x){
+            for (int y = 0; y < n; ++y){
+                for (int u = -(m-1)/2; u <= m/2; ++u){
+                    for (int v = -(m-1)/2; v <= m/2; ++v){
+                        ans[r] = A.get_Element(x+u,v+y,false);
                                                 r++;
-					}
-				}
-			}
-		}
-	}
+                    }
+                }
+            }
+        }
+    }
 
-	else{
-		for (int x = 0; x < n; ++x){
-			for (int y = 0; y < n; ++y){
-					for (int u = -m/2; u <= (m-1)/2; ++u){
-					for (int v = -m/2; v <= (m-1)/2; ++v){
-						ans[r] = A.get_Element(x+u,v+y,false);
+    else{
+        for (int x = 0; x < n; ++x){
+            for (int y = 0; y < n; ++y){
+                    for (int u = -m/2; u <= (m-1)/2; ++u){
+                    for (int v = -m/2; v <= (m-1)/2; ++v){
+                        ans[r] = A.get_Element(x+u,v+y,false);
                                                 r++;
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
-	}
+    }
          Matrix * R= new Matrix(ans,r/(m*m),(m*m));
 
         return R;
@@ -202,7 +202,7 @@ Matrix *convolution::conv_mult_withoutpadding(Matrix& A, Matrix& B){
     return result;
 }
 
-Matrix *convolution::conv_mult_withoutpadding_threaded(Matrix& A, Matrix& B){
+Matrix *convolution::conv_mult_withpadding_threaded(Matrix& A, Matrix& B){
 	int m = B.get_sizeofrow(), n = A.get_sizeofrow();
 	/*int no_of_threads = n-m+1;
 
@@ -281,43 +281,6 @@ Matrix *convolution::conv_mult_withoutpadding_threaded(Matrix& A, Matrix& B){
 
     // return &Matrix(&result_vector[0],n-m+1);		//bad implement
     Matrix *final_matrix = new Matrix(answer,n-m+1,n-m+1); //have to implement this.....
-    return final_matrix;
-}
-
-Matrix *convolution::conv_mult_withpadding_threaded(Matrix& A, Matrix& B){
-	int m = B.get_sizeofrow(), n = A.get_sizeofrow();
-	
-	Matrix* temp1_matrix=to_toeplitz_padded(A,m);
-	Matrix* C = new Matrix(temp1_matrix->get_Matrix(),(n)*(n),m*m);
-    Matrix* temp_matrix=to_toeplitz(B,m);
-    
-    Matrix* D=new Matrix(temp_matrix->get_Matrix(),1,m*m);
-    
-    int no_of_threads = n; 
-    pthread_t threadid[no_of_threads];
-    struct two_matrix inpt[no_of_threads];
-    float *answer = new float[(n)*(n)];
-    
-    for (int i = 0; i < no_of_threads; ++i){
-    	inpt[i].mat1=C;
-    	inpt[i].mat2=D;
-    	inpt[i].start= i*no_of_threads;
-    	inpt[i].data = answer;
-    	inpt[i].initiate = i*no_of_threads;
-    	inpt[i].no_thread = no_of_threads;
-    	pthread_attr_t attr;
-		pthread_attr_init(&attr);
-    	pthread_create(&threadid[i],NULL,mult_matrix_threaded_helper,&inpt[i]);
-    	}
-
-    
-    for (int i = 0; i < no_of_threads; ++i){
-    	pthread_join(threadid[i],NULL);
-    
-    }
-    delete temp_matrix;
-    delete D; delete temp1_matrix; delete C;
-    Matrix *final_matrix = new Matrix(answer,n,n); //have to implement this.....
     return final_matrix;
 }
 
@@ -437,7 +400,7 @@ void * convolution::mult_matrix_threaded(void *arguments){
 }
 
 /*same for openblas*/
-Matrix* convolution::mkl_mult(Matrix& A, Matrix& B){
+Matrix* convolution::openblas_mult(Matrix& A, Matrix& B){
 	int m = B.get_sizeofrow(), n = A.get_sizeofrow();
 	Matrix* temp1_matrix=to_toeplitz(A,m);
 	Matrix* C = new Matrix(temp1_matrix->get_Matrix(),(n-m+1)*(n-m+1),m*m);
@@ -449,16 +412,15 @@ Matrix* convolution::mkl_mult(Matrix& A, Matrix& B){
     // cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
                 // m, n, k, 1, A, k, B, n, 0, C, n);
     /*m=(n-m+1)*(n-m+1) k=m*m n =1 */
-    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 			
-                (n-m+1)*(n-m+1), 1, m*m, 1, X, m*m, Y, 1, 0, Z,1);		
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
+                (n-m+1)*(n-m+1), 1, m*m, 1, X, m*m, Y, 1, 0, Z,1);
 
     Matrix *final_matrix = new Matrix(Z,n-m+1,n-m+1); //have to implement this.....
     return final_matrix;
 
 }
 
-Matrix* convolution::mkl_mult_padded(Matrix& A, Matrix& B){
-    cout<<"Inside Function:"<<endl;
+Matrix* convolution::openblas_mult_padded(Matrix& A, Matrix& B){
 	int m = B.get_sizeofrow(), n = A.get_sizeofrow();
 	Matrix* temp1_matrix=to_toeplitz_padded(A,m);
 	Matrix* C = new Matrix(temp1_matrix->get_Matrix(),(n)*(n),m*m);
@@ -466,15 +428,16 @@ Matrix* convolution::mkl_mult_padded(Matrix& A, Matrix& B){
     Matrix* temp_matrix=to_toeplitz(B,m);
     Matrix* D=new Matrix(temp_matrix->get_Matrix(),1,m*m);
     float* Y = D->get_Matrix();
-    float* Z = new float[n*n];
+    float* Z = new float[(n)*(n)];
     // cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
                 // m, n, k, 1, A, k, B, n, 0, C, n);
     /*m=(n-m+1)*(n-m+1) k=m*m n =1 */
-    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 			
-                n*n, 1, m*m, 1, X, m*m, Y, 1, 0, Z,1);		
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
+                (n)*(n), 1, m*m, 1, X, m*m, Y, 1, 0, Z,1);
 
     Matrix *final_matrix = new Matrix(Z,n,n); //have to implement this.....
     return final_matrix;
 
 }
+
 
