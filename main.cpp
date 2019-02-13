@@ -38,53 +38,66 @@ int main(int argc, char** argv) {
 
     else if(strcmp(argv[1],"Recognise_digit")==0){
         LetNet obj;
+    /*
+     Read the image using file name contained as the second command line argument using the true boolena specifier
+     for indicating that the matrix is an image and the data values need to be normalized internally while creating the
+     matrix object A.
+    */
+        try{
         Matrix A(argv[2],28,true);
-        // A.print_matrix();
+        //Receive the output from the first convolution layer.
         Matrix **B = obj.Convolution1(A);
-        // B[0]->print_matrix();
+        //max_pooling the output from layer 1 and then calling for second convolutional layer
         obj.Pool1(B);
-        // B[0]->print_matrix();
         Matrix **C = obj.Convolution2(B);
         delete B;
-        // C[0]->print_matrix();
+        //max_pooling the output from seconde convolutional layer 1 and then calling for first fully connected convolutional layer
         obj.Pool2(C);
-        // C[0]->print_matrix();
         Matrix **D = obj.FullyConnected1(C);
+        //ReLu activation and then forwarding the modified values to the second fully connected convolutional layer
         obj.ReluAll(D);
-        
         Matrix **Result = obj.FullyConnected2(D);
-        // for(int i=0;i<10;i++)
-            // Result[i]->print_matrix();
         delete D;
         delete C;
+        /*
+         In the next three lines the output probabilities have been converted to a std::vector and passes on to softmax function to 
+         the probability vector.
+        */
         std::vector<float> v;
         for(int i=0;i<10;i++)
             v.push_back(Result[i]->get_Element(0,0));
-
         softmax soft;
+        //Calling the soft_max function that returns the Matrix object for probability vector
         Matrix E(soft.soft_max(v));
+        //Accessing the probability vector from the Matrix abstraction
         std::vector<float> prob_vec = E.get_Vec();
-        int array[10] = {0,1,2,3,4,5,6,7,8,9};
+        int indices[10] = {0,1,2,3,4,5,6,7,8,9};
+        /*
+         This is a simple code for performing selection sort using the probabilities obtained from the softmax function
+         and also placing the corresponding digit in the indices array to maintain track of the digits and the coressponding
+         probabilities.
+        */
         for(int i=0;i<10;i++){
             int start = i;
             for(int j=i+1;j<10;j++)
                 if(prob_vec[j]>prob_vec[start])
                     start =j;
-            array[i]=start;
+            indices[i]=start;
             float temp=prob_vec[i];
             prob_vec[i]=prob_vec[start];
             prob_vec[start]=temp;
-            
-            
-        }
-
+         }
+        //Printing the 5 digits with highest probabilities and their corresponding probabilities 
         for(int i=0;i<5;i++){
-            cout<<"Digit "<<array[i]<<" : "<<prob_vec[i]<<endl;
+            cout<<"Digit "<<indices[i]<<" : "<<prob_vec[i]<<endl;
         }
-        
-        
-        
-
+            }catch(DtException& e){
+                e.getMessage();
+                cout<<"\n--Matrix cannot be read--\n";
+            }
+            catch(exception& e){
+                cout<<"Standard Exception: "<<endl;
+            }
     }
     
     else if(strcmp(argv[1],"ReLU")==0){
