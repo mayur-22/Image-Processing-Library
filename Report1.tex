@@ -1,0 +1,130 @@
+\documentclass[10pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\title{COP-290\\
+	   ACCELERATING MATRIX MULTIPLICATION}
+\author{Mohammad Kamal Ashraf \\E-mail : \href{mailto:cs1170589@cse.iitd.ac.in}{cs1170589@cse.iitd.ac.in}
+\and	Mayur Solanki \\E-mail: \href{mailto:cs1170349@cse.iitd.ac.in}{cs1170349@cse.iitd.ac.in}
+		}
+\begin{document}
+\maketitle
+\section{Introduction}
+
+Linear Algebra has always been central to the development of numerous fields in Computer Science. From computer vision to machine learning to parallel computing, everywhere most of the modelling and computation follows models arising from Linear Algebra. 
+
+The intensive and extensive use of linear algebra operations in computing necessitates the development of efficient algorithms and optimizations that could allow us to exploit the computing resources for development of better and effective applications. Most algorithms based on linear algebra extensively use vector and matrix operations. Thus a very high level of speed-up can be achieved by optimizing vector and matrix operations.
+
+In this report we present the results obtained through the use of Linear Algebra Libraries and our own effort at using parallelism through POSIX pthreads to optimize Matrix Multiplication.
+
+\section{Linear Algebra Libraries}
+
+As the linear algebra operations are such central to a lot of algorithms, a lot of optimized libraries are available for  such tasks. Basic Linear Algebra Subprograms (BLAS) is a specification that prescribes a set of low-level routines for performing common linear algebra operations such as vector additions, scalar multiplications, dot products, linear combinations, and matrix multiplications.
+
+We used two implementations of the BLAS provided by Intel\circledR Math Kernel Library(MKL) and an open source library OpenBLAS and compared the results obtained from these. In both the imolementations we have used the following function form BLAS: cblas\_segmm - matrix multiplication for short point precision.\cite{BLASfunctions}
+\\
+\\
+void cblas\_sgemm(const enum CBLAS\_ORDER \_\_Order, const enum CBLAS\_TRANSPOSE \_\_TransA, const enum CBLAS\_TRANSPOSE \_\_TransB, const int \_\_M, const int \_\_N, const int \_\_K, const float \_\_alpha, const float *\_\_A, const int \_\_lda, const float *\_\_B, const int \_\_ldb, const float \_\_beta, float *\_\_C, const int \_\_ldc);
+\subsection{Intel\circledR Math Kernel Library(MKL)}
+
+Intel MKL has been developed by Intel Corporation and these libraries have been optimized specially for Intel processors. In fact these libraries work the best with Intel's own C\textbackslash C++ compilers. The MKL library provides implementations for BLAS, LAPACK, and FFTW functions.\cite{MKL}
+
+The basic functions for linear algebra are provided by BLAS and here we implemented this library for matrix-vector multiplication using the GNU g++ compiler for C++. We used the cblas\_sgemm function for performing matrix multiplication on matrices stored in contiguous storage.
+
+ 
+This library was significantly slower than OpenBLAS but on increasing the input matrix size the MKL tends to come out better. We present the latency in milliseconds for increasing matrix sizes with MKL implementation.
+
+\subsection{OpenBLAS}
+
+OpenBLAS is an open source implementation of the Basic Linear Algebra Sub-programs(BLAS). It has been developed by the Lab of Parallel Software and Computational Science, ISCAS and claims to achieve performance comparable to that of MKL.\cite{OpenBLAS}
+
+Here again we used the cblas\_segmm function for performing matrix multiplication. however due to the conflict between MKL and OpenBLAS, we kept the OpenBLAS functionalities in different folder with a different make. In our implementation the OpenBLAS was significantly faster than any other implementation though in the higher matrix sizes the difference between MKL and OpenBLAS seems to become narrow.
+
+\section{Performance Comparison}
+\subsection{Compariosn Over Matrix Size}
+For the comparison of performance we used multiplication of a square matrix with a vector as the common run case as this was what our algorithm for convolution for images required. We ran the test on a kernel of order 2 over different matrix sizes with the same dataset for each test.
+
+The latency in milliseconds was calculated using standard C++ "crono" library and the results were as follows:
+
+\newpage
+
+
+\begin{center}
+\title{\begin{Large}
+Comparison of Performance Across Matrix Sizes
+\end{Large}}
+\newline
+\newline
+
+\begin{tabular}{l|c|c|c|c}
+\textbf{Matrix Size} & \textbf{Pthreads} & \textbf{Math Kernel Library (MKL)} &  \textbf{OpenBLAS} &  \textbf{Normal}\\
+\textbf{(Matrix Order)} & \textbf{Latency (ms)} & \textbf{Latency (ms)} & \textbf{Latency (ms)} & \textbf{Latency (ms)}\\
+\hline
+10 & 1.3489 & 0.6436 & 0.1758 & 0.042493\\
+50 & 8.675 & 21.032 & 0.9 & 1.36251\\
+100 & 10.98 & 24.5025 & 0.7442 & 2.11072\\
+250 & 8.45 & 20.1742 & 3.954 & 5.1453\\
+500 & 22.8862 & 27.8571 & 9.7985 & 17.2756\\
+1000 & 76.6745 & 57.2758 & 38.63 & 70.1492\\
+1500 & 149.212 & 100.963 & 83.82 & 167.072\\
+2000 & 255.471 & 165.051 & 151.265 & 290.861\\
+\end{tabular}
+
+\includegraphics[scale=2.7]{SubTask-3/linegraph.png} 
+\newline
+\newline
+\end{center}
+
+\subsection{Mean and Standard Deviations}
+
+For the boxplot, we ran our three optimized implementations several times over matrix size of 1000 and took the mean and standard deviation of the latency in milliseconds(ms). In the boxplot we have provided the mean and the standard deviation spread around mean.
+\newline
+\begin{center}
+
+\title{\begin{Large}
+Mean and Standard Deviations
+\end{Large}}
+\newline
+\newline
+
+\begin{tabular}{l|c|c}
+\textbf{Implementation} & \textbf{Mean Latency (ms)} & \textbf{Standard Deviation}\\
+\hline
+Pthreads & 72.18661 & 0.9157 \\
+MKL & 58.2962 & 5.9971 \\
+OpenBLAS & 37.45367 & 0.5010 \\
+\end{tabular}
+
+\includegraphics[scale=2.6]{SubTask-3/boxplot.png} 
+
+\end{center}
+
+\section{Acceleration with Pthreads}
+\subsection{Implementation strategy for Pthreads}
+For the Pthreads implementation we used multi-threading\cite{Tutor} for optimizing the operations as far as possible. We maintained an approach such that the number of threads scale as the input dimensions scale.
+\begin{itemize}
+\item In our implementation we have optimized the matrix multiplication using number of threads equal to the number of rows in the Toeplitz Matrix.
+\item Earlier we used the number of threads equal to the number of elements in the output matrix but we realised that doing so will create a large number of threads that may adversely affect the performance and so we decided to reduce the number of threads.
+\item We also tried to implement threading in the functions for conversion of input image to Toeplitz matrices but we did not do this as the implementations from MKL and OpenBLAS also use this code and so we maintained uniformity and made comparison only on the basis of matrix multiplication sections of code.
+\end{itemize}
+\subsection{Graphical comparison with Normal implementation}
+The following graph provides the ratio of the latency in the normal implementation and the threaded implementation over different matrix sizes.
+\newline
+\begin{center}
+\includegraphics[scale=2.]{SubTask-3/thirdplot.png} 
+\end{center}
+\title{Observations}
+\begin{itemize}
+\item In the lower region, with low matrix dimensions, the threaded performance is significantly poor compared to the norml performance.
+\item In the higher values of matrix dimensions, the threaded performance overtakes the normal performance and there is significant improvisation in performance continually.
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{Report1}
+
+\end{document}
