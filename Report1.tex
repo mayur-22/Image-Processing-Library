@@ -26,7 +26,7 @@ In this report we present the results obtained through the use of Linear Algebra
 
 As the linear algebra operations are such central to a lot of algorithms, a lot of optimized libraries are available for  such tasks. Basic Linear Algebra Subprograms (BLAS) is a specification that prescribes a set of low-level routines for performing common linear algebra operations such as vector additions, scalar multiplications, dot products, linear combinations, and matrix multiplications.
 
-We used two implementations of the BLAS provided by Intel\circledR Math Kernel Library(MKL) and an open source library OpenBLAS and compared the results obtained from these. In both the imolementations we have used the following function form BLAS: cblas\_segmm - matrix multiplication for short point precision.\cite{BLASfunctions}
+We used two implementations of the BLAS provided by Intel\circledR Math Kernel Library(MKL) and an open source library OpenBLAS and compared the results obtained from these. In both the implementations we have used the following function form BLAS: cblas\_segmm - matrix multiplication for short point precision.\cite{BLASfunctions}
 \\
 \\
 void cblas\_sgemm(const enum CBLAS\_ORDER \_\_Order, const enum CBLAS\_TRANSPOSE \_\_TransA, const enum CBLAS\_TRANSPOSE \_\_TransB, const int \_\_M, const int \_\_N, const int \_\_K, const float \_\_alpha, const float *\_\_A, const int \_\_lda, const float *\_\_B, const int \_\_ldb, const float \_\_beta, float *\_\_C, const int \_\_ldc);
@@ -47,7 +47,7 @@ Here again we used the cblas\_segmm function for performing matrix multiplicatio
 
 \section{Performance Comparison}
 \subsection{Compariosn Over Matrix Size}
-For the comparison of performance we used multiplication of a square matrix with a vector as the common run case as this was what our algorithm for convolution for images required. We ran the test on a kernel of order 2 over different matrix sizes with the same dataset for each test.
+For the comparison of performance we used multiplication of a square matrix  input converted to a Toeplitz matrix with a vector as the common run case as this was what our algorithm for convolution for images required. We ran the test on a kernel of order 2 over different matrix sizes with the same dataset for each test.
 
 The latency in milliseconds was calculated using standard C++ "crono" library and the results were as follows:
 
@@ -56,7 +56,7 @@ The latency in milliseconds was calculated using standard C++ "crono" library an
 
 \begin{center}
 \title{\begin{Large}
-Comparison of Performance Across Matrix Sizes
+Comparison of Performance Across Input Matrix Sizes
 \end{Large}}
 \newline
 \newline
@@ -82,7 +82,7 @@ Comparison of Performance Across Matrix Sizes
 
 \subsection{Mean and Standard Deviations}
 
-For the boxplot, we ran our three optimized implementations several times over matrix size of 1000 and took the mean and standard deviation of the latency in milliseconds(ms). In the boxplot we have provided the mean and the standard deviation spread around mean.
+For the boxplot, we ran our three optimized implementations several times over input matrix size of 1000 and took the mean and standard deviation of the latency in milliseconds(ms). In the boxplot we have provided the mean and the standard deviation spread around mean.
 \newline
 \begin{center}
 
